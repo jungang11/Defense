@@ -36,15 +36,16 @@ public class GameManager : MonoBehaviour
 
     private void InitManagers()
     {
-        GameObject poolObj = new GameObject();
-        poolObj.name = "PoolManager";
-        poolObj.transform.parent = transform;
-        poolManager = poolObj.AddComponent<PoolManager>();
-
+        // ResourceManager 를 우선순위로
         GameObject resourceObj = new GameObject();
         resourceObj.name = "ResourceManager";
         resourceObj.transform.parent = transform;
         resourceManager = resourceObj.AddComponent<ResourceManager>();
+
+        GameObject poolObj = new GameObject();
+        poolObj.name = "PoolManager";
+        poolObj.transform.parent = transform;
+        poolManager = poolObj.AddComponent<PoolManager>();
 
         GameObject uiObj = new GameObject();
         uiObj.name = "UIManager";

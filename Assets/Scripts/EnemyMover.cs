@@ -23,7 +23,13 @@ public class EnemyMover : MonoBehaviour
     {
         if(Vector3.Distance(transform.position, endPoint.position) < 0.1f)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
+        ShakeCamera.Instance.OnShakeCamera(0.1f, 0.5f);
     }
 }

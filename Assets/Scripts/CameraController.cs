@@ -68,6 +68,5 @@ public class CameraController : MonoBehaviour
     private void OnZoom(InputValue value)
     {
         zoomScroll = value.Get<Vector2>().y;
-        Debug.Log(zoomScroll);
     }
 }
