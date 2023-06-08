@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
 
     // Window는 원래 List구조(LinkedList -> c#)로 사용 -> Unity라 사용x
     private Canvas windowCanvas;
+    private List<WindowUI> windowList;
 
     private Canvas inGameCanvas;
 
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
         windowCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         windowCanvas.gameObject.name = "WindowCanvas";
         windowCanvas.sortingOrder = 50;
+        windowList = new List<WindowUI>();
 
         inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         inGameCanvas.gameObject.name = "InGameCanvas";
@@ -85,8 +87,12 @@ public class UIManager : MonoBehaviour
     #region WindowUI
     public T ShowWindowUI<T>(T windowUI) where T : WindowUI
     {
+        windowList.Add(windowUI);
+
         T ui = GameManager.Pool.GetUI(windowUI);
         ui.transform.SetParent(windowCanvas.transform, false);
+
+        RefreshWindowUI();
 
         return ui;
     }
@@ -95,6 +101,14 @@ public class UIManager : MonoBehaviour
     {
         T ui = GameManager.Resource.Load<T>(path);
         return ShowWindowUI(ui);
+    }
+
+    public void RefreshWindowUI()
+    {
+        foreach(var window in windowList)
+        {
+            window.transform.SetAsFirstSibling();
+        }
     }
 
     public void SelectWindowUI<T>(T windowUI) where T : WindowUI
@@ -106,9 +120,12 @@ public class UIManager : MonoBehaviour
 
     public void CloseWindowUI<T>(T windowUI) where T : WindowUI
     {
+        windowList.Remove(windowUI);
+        RefreshWindowUI();
         GameManager.Pool.ReleaseUI(windowUI.gameObject);
     }
     #endregion WindowUI
+
 
     public T ShowInGameUI<T>(T inGameUI) where T : InGameUI
     {
