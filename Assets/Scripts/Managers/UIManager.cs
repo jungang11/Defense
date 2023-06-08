@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     // Window는 원래 List구조(LinkedList -> c#)로 사용 -> Unity라 사용x
     private Canvas windowCanvas;
 
+    private Canvas inGameCanvas;
+
     private void Awake()
     {
         // 씬 실행시 Resource/UI 폴더의 EventSystem 프리팹을 생성
@@ -29,8 +31,13 @@ public class UIManager : MonoBehaviour
         windowCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         windowCanvas.gameObject.name = "WindowCanvas";
         windowCanvas.sortingOrder = 50;
+
+        inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
+        inGameCanvas.gameObject.name = "InGameCanvas";
+        inGameCanvas.sortingOrder = 0;
     }
 
+    #region PopUpUI
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
     {
         // 이전에 연 팝업이 있을 때
@@ -73,7 +80,9 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
+    #endregion PopUpUI
 
+    #region WindowUI
     public T ShowWindowUI<T>(T windowUI) where T : WindowUI
     {
         T ui = GameManager.Pool.GetUI(windowUI);
@@ -98,5 +107,25 @@ public class UIManager : MonoBehaviour
     public void CloseWindowUI<T>(T windowUI) where T : WindowUI
     {
         GameManager.Pool.ReleaseUI(windowUI.gameObject);
+    }
+    #endregion WindowUI
+
+    public T ShowInGameUI<T>(T inGameUI) where T : InGameUI
+    {
+        T ui = GameManager.Pool.GetUI(inGameUI);
+        ui.transform.SetParent(inGameCanvas.transform, false);
+
+        return ui;
+    }
+
+    public T ShowInGameUI<T>(string path) where T : InGameUI
+    {
+        T ui = GameManager.Resource.Load<T>(path);
+        return ShowInGameUI(ui);
+    }
+
+    public void CloseInGameUI<T>(T inGameUI) where T : InGameUI
+    {
+        GameManager.Pool.ReleaseUI(inGameUI.gameObject);
     }
 }
