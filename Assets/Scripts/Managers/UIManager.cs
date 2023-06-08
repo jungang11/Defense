@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     private Canvas popUpCanvas;
     private Stack<PopUpUI> popUpStack;
 
+    // Window는 원래 List구조(LinkedList -> c#)로 사용 -> Unity라 사용x
+    private Canvas windowCanvas;
+
     private void Awake()
     {
         // 씬 실행시 Resource/UI 폴더의 EventSystem 프리팹을 생성
@@ -21,6 +24,11 @@ public class UIManager : MonoBehaviour
         popUpCanvas.gameObject.name = "PopUpCanvas";
         popUpCanvas.sortingOrder = 100;
         popUpStack = new Stack<PopUpUI>();
+
+        // popUpUI는 Stack구조를 사용하기 때문에 windowUI는 따로 작성
+        windowCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
+        windowCanvas.gameObject.name = "WindowCanvas";
+        windowCanvas.sortingOrder = 50;
     }
 
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
@@ -64,5 +72,31 @@ public class UIManager : MonoBehaviour
             // Stack이 비었을 경우(팝업 UI가 모두 닫혔을 경우) 시간이 흐르도록 함
             Time.timeScale = 1f;
         }
+    }
+
+    public T ShowWindowUI<T>(T windowUI) where T : WindowUI
+    {
+        T ui = GameManager.Pool.GetUI(windowUI);
+        ui.transform.SetParent(windowCanvas.transform, false);
+
+        return ui;
+    }
+
+    public T ShowWindowUI<T>(string path) where T : WindowUI
+    {
+        T ui = GameManager.Resource.Load<T>(path);
+        return ShowWindowUI(ui);
+    }
+
+    public void SelectWindowUI<T>(T windowUI) where T : WindowUI
+    {
+        // Canvas 상에서 위인지 아래인지 transform에서 관리
+        // SetAsLastSibling : 계층 구조 상에서 마지막으로 위치
+        windowUI.transform.SetAsLastSibling();
+    }
+
+    public void CloseWindowUI<T>(T windowUI) where T : WindowUI
+    {
+        GameManager.Pool.ReleaseUI(windowUI.gameObject);
     }
 }
