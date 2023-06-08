@@ -18,16 +18,9 @@ public class TowerPlace : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
-        {
-            // 카메라 흔들기
-            ShakeCamera.Instance.OnShakeCamera(0.1f, 0.5f);
-            Debug.Log("좌클릭");
-        }
-        else if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            Debug.Log("우클릭");
-        }
+        BuildInGameUI buildUI = GameManager.UI.ShowInGameUI<BuildInGameUI>("UI/BuildInGameUI");
+        buildUI.SetTarget(transform);
+        buildUI.towerPlace = this;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -38,5 +31,12 @@ public class TowerPlace : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         render.material.color = normal;
+    }
+
+    public void BuildTower(TowerData data)
+    {
+        // towerPlace를 지워주고 그 위치(transform에 data.towers[].tower 건설
+        GameManager.Resource.Destroy(gameObject);
+        GameManager.Resource.Instantiate(data.Towers[0].tower, transform.position, transform.rotation);
     }
 }
