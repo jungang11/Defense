@@ -95,6 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 0}
   followOffset: {x: 0, y: 0, z: 0}
+  towerPlace: {fileID: 0}
 --- !u!1 &1003592060532973180
 GameObject:
   m_ObjectHideFlags: 0

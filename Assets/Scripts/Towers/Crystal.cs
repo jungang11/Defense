@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class Crystal : MonoBehaviour
 {
     [SerializeField] float speed;
 
@@ -13,7 +13,7 @@ public class Arrow : MonoBehaviour
     public void SetTarget(EnemyController enemy)
     {
         this.enemy = enemy;
-        StartCoroutine(ArrowRoutine());
+        StartCoroutine(CrystalRoutine());
     }
 
     public void SetDamage(int damage)
@@ -21,19 +21,19 @@ public class Arrow : MonoBehaviour
         this.damage = damage;
     }
 
-    IEnumerator ArrowRoutine()
+    IEnumerator CrystalRoutine()
     {
         while (true)
         {
-            if(enemy != null)
+            if (enemy != null)
                 targetPoint = enemy.transform.position;
 
             transform.LookAt(targetPoint);
             transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
 
-            if(Vector3.Distance(targetPoint, transform.position) < 0.1f)
+            if (Vector3.Distance(targetPoint, transform.position) < 0.1f)
             {
-                if(enemy != null)
+                if (enemy != null)
                     Attack(enemy);
                 GameManager.Resource.Destroy(gameObject);
                 yield break;

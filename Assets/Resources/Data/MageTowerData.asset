@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dfa550e13416fa47a909ad6aa7b0aa8, type: 3}
-  m_Name: CanonTowerData
+  m_Name: MageTowerData
   m_EditorClassIdentifier: 
   towers:
-  - tower: {fileID: 304110669734964802, guid: d85529706d6cc894f8204aaff2ba9f18, type: 3}
-    damage: 5
-    delay: 7
-    range: 20
-    buildTime: 10
-    buildCost: 15
-    sellCost: 7
+  - tower: {fileID: 4075452795655781511, guid: 5e1140cd5f820604db856cb729646190, type: 3}
+    damage: 2
+    delay: 3
+    range: 10
+    buildTime: 2
+    buildCost: 10
+    sellCost: 5

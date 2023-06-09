@@ -26,24 +26,6 @@ public class ShakeCamera : MonoBehaviour
         StopCoroutine(ShakeByRotation());
     }
 
-    IEnumerator ShakeByPosition()
-    {
-        // 흔들리기 직전의 시작 위치
-        Vector3 startPosition = Camera.main.transform.position;
-
-        while (shakeTime > 0.0f)
-        {
-            // 초기 위치부터 구 범위(Size 1) * shakeIntensity의 범위 안에서 카메라 위치 변동
-            Camera.main.transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
-
-            // 시간 감소
-            shakeTime -= Time.deltaTime;
-
-            yield return null;
-        }
-        Camera.main.transform.position = startPosition;
-    }
-
     IEnumerator ShakeByRotation()
     {
         // 카메라 흔들림 효과 재생 시작
