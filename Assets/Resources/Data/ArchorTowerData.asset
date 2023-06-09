@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ArchorTowerData
   m_EditorClassIdentifier: 
   towers:
-  - tower: {fileID: -4391217931179006144, guid: 72bb80937c903a749813712a2a62d701, type: 3}
-    damage: 3
+  - tower: {fileID: 3981827036679444867, guid: 4bfee61fcee2ce146be09f697b2b2c0e, type: 3}
+    damage: 1
     delay: 1
     range: 10
     buildTime: 1
